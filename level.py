@@ -45,7 +45,3 @@ class Level(object):
         self.map_layer = pyscroll.IsometricBufferedRenderer(self.map_data, (self.width, self.height))
 
         self.group = PyscrollGroup(map_layer=self.map_layer, default_layer=2)
-
-    @property
-    def get_group(self):
-        return self.group

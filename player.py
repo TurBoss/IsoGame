@@ -22,7 +22,7 @@ def load_image(name):
 
 
 class Player(pygame.sprite.Sprite):  # Player class
-    def __init__(self, fname, pos):
+    def __init__(self, fname):
 
         # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
@@ -34,8 +34,8 @@ class Player(pygame.sprite.Sprite):  # Player class
 
         self.direction = 0
 
-        self.pos_x = pos[0]
-        self.pos_y = pos[1]
+        self.pos_x = 0
+        self.pos_y = 0
 
         self.up = False
         self.down = False
@@ -190,7 +190,7 @@ class Player(pygame.sprite.Sprite):  # Player class
         elif self.direction == 7:
             self.pos_x -= speed_x  # Left
 
-    def update(self):
+    def update(self, dt):
         if self.walking:
             self.walk_index += 1
             if self.walk_index == len(self.player_move[self.direction]):
@@ -203,3 +203,6 @@ class Player(pygame.sprite.Sprite):  # Player class
             self.image = self.player_standby[self.direction][self.standby_index]
 
         self.walking = False
+
+        self.rect.x = self.pos_x * dt
+        self.rect.y = self.pos_y * dt

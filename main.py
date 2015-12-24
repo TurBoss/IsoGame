@@ -3,8 +3,6 @@
 import pygame
 from pygame.locals import *
 
-from pytmx.util_pygame import load_pygame
-
 from level import Level
 from player import Player
 
@@ -31,7 +29,7 @@ class MainGame(object):  # Game class
 
         self.clock = pygame.time.Clock()
 
-        self.player = Player("player", (100, 100))
+        self.player = Player("player")
 
         self.level = Level("level1")
 
@@ -49,7 +47,7 @@ class MainGame(object):  # Game class
     def update(self, dt):
         """ Tasks that occur over time should be handled here """
 
-        self.levelGroup.update()
+        self.levelGroup.update(dt)
 
     def main(self):
         while True:

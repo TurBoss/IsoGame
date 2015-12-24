@@ -3,6 +3,8 @@
 import pygame
 from pygame.locals import *
 
+from pytmx.util_pygame import load_pygame
+
 from level import Level
 from player import Player
 
@@ -31,10 +33,10 @@ class MainGame(object):  # Game class
 
         self.player = Player("player", (100, 100))
 
-        # self.level = Level("level1")
+        self.level = Level("level1")
 
-        # self.levelGroup = self.level.group()
-        # self.levelGroup.add(self.player)
+        self.levelGroup = self.level.group
+        self.levelGroup.add(self.player)
 
     def draw(self, screen):
 
@@ -47,18 +49,7 @@ class MainGame(object):  # Game class
     def update(self, dt):
         """ Tasks that occur over time should be handled here """
 
-        self.levelGroup.update(dt)
-
-        # check if the sprite's feet are colliding with wall
-        # sprite must have a rect called feet, and move_back method,
-        # otherwise this will fail
-        """
-		for sprite in self.group.sprites():
-			if sprite.feet.collidelist(self.walls) > -1:
-				sprite.move_back(dt)
-		"""
-
-    """ main function """
+        self.levelGroup.update()
 
     def main(self):
         while True:
@@ -73,16 +64,13 @@ class MainGame(object):  # Game class
                 # this will be handled if the window is resized
                 elif event.type == VIDEORESIZE:
                     self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                # self.map_layer.set_size((event.w / 2, event.h / 2))
 
                 self.player.handle_event(event)
 
-            self.player.update()
-            # self.update(dt)
+            self.update(dt)
 
             self.temp_surface.fill(BLACK)
-            # self.draw(self.temp_surface)
-            self.player.draw(self.temp_surface)
+            self.draw(self.temp_surface)
 
             pygame.transform.scale(self.temp_surface, self.screen.get_size(), self.screen)
 

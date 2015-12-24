@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" renderorder="right-down" width="25" height="25" tilewidth="64" tileheight="32" nextobjectid="41">
+<map version="1.0" orientation="isometric" renderorder="right-down" width="25" height="25" tilewidth="64" tileheight="32" nextobjectid="48">
  <tileset firstgid="1" name="iso-64x64-outside" tilewidth="64" tileheight="32" tilecount="320">
   <image source="iso-64x64-outside.png" trans="00ff00" width="640" height="1024"/>
  </tileset>
@@ -69,6 +69,24 @@
   </object>
   <object id="38" name="Seto" x="216" y="544.667" width="35.3333" height="22">
    <ellipse/>
+  </object>
+  <object id="41" name="Arbol1" x="384" y="544" width="32" height="32">
+   <ellipse/>
+  </object>
+  <object id="42" name="Arbol2" x="448" y="448" width="32" height="32">
+   <ellipse/>
+  </object>
+  <object id="43" name="Arbol3" x="512" y="416" width="32" height="32">
+   <ellipse/>
+  </object>
+  <object id="44" name="Arbol4" x="544" y="416" width="32" height="32">
+   <ellipse/>
+  </object>
+  <object id="45" name="Tronco1" x="64" y="160">
+   <polyline points="11.6667,-1 10.6667,-32"/>
+  </object>
+  <object id="47" name="Tronco2" x="137.333" y="90.6667">
+   <polyline points="0,0 1.33333,-28"/>
   </object>
  </objectgroup>
 </map>

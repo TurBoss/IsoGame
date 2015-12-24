@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import os
-import pytmx
+
 import pygame
-from pygame.locals import *
+
 import pyscroll
 import pyscroll.data
+
 from pyscroll.group import PyscrollGroup
+from pytmx.util_pygame import load_pygame
 
 if not pygame.font:
     print 'Warning, fonts disabled'
@@ -25,40 +27,25 @@ def load_image(name):
     return image
 
 
-class Level(object):  # Level class
+class Level(object):
 
     def __init__(self, fname):
-        # pygame.sprite.Sprite.__init__(self)
 
         self.width, self.height = 800, 600
         self.tile_width, self.tile_height = 64, 32
 
-        #self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA, 32).convert_alpha()
-        #self.rect = self.image.get_rect()
+        self.fullname = os.path.join('data', '%s.tmx' % fname)
 
-        self.tiled_map = pytmx.TiledMap(os.path.join('data', '%s.tmx' % fname))
+        self.tmx_data = load_pygame(self.fullname)
+
+        self.map_data = pyscroll.TiledMapData(self.tmx_data)
+
         self.tileset = load_image("iso-64x64-outside.png")
 
-        self.map_data = pyscroll.data.TiledMapData(self.tiled_map)
-
-        self.map_layer = pyscroll.BufferedRenderer(self.map_data, (self.width, self.height))
+        self.map_layer = pyscroll.IsometricBufferedRenderer(self.map_data, (self.width, self.height))
 
         self.group = PyscrollGroup(map_layer=self.map_layer, default_layer=2)
 
     @property
     def get_group(self):
         return self.group
-"""
-        self.layerName = layer
-
-        self.layer = self.tiled_map.get_layer_by_name(self.layerName)
-
-        for x, y, image in self.layer.tiles():
-            self.tile = pygame.Surface((self.tile_width, self.tile_height), pygame.SRCALPHA, 32).convert_alpha()
-            self.tile.blit(self.tileset, (0, 0), image[1])
-
-            xPos = ((x - y) * self.tile_width / 2) + self.width / 2
-            yPos = ((x + y) * self.tile_height / 2) + self.height / 2
-
-            self.image.blit(self.tile, (xPos, yPos))
-"""

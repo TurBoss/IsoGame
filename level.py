@@ -31,7 +31,7 @@ class Level(object):
 
     def __init__(self, fname):
 
-        self.width, self.height = 800, 600
+        self.width, self.height = 1024, 768
         self.tile_width, self.tile_height = 64, 32
 
         self.fullname = os.path.join('data', '%s.tmx' % fname)
@@ -43,5 +43,6 @@ class Level(object):
         self.tileset = load_image("iso-64x64-outside.png")
 
         self.map_layer = pyscroll.IsometricBufferedRenderer(self.map_data, (self.width, self.height))
+        self.map_layer.zoom = 2
 
         self.group = PyscrollGroup(map_layer=self.map_layer, default_layer=2)

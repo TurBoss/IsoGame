@@ -22,7 +22,7 @@ class MainGame(object):  # Game class
         pygame.display.set_caption("IsoGame")  # Set app name
         pygame.key.set_repeat(1, 20)
 
-        self.width, self.height = 800, 600
+        self.width, self.height = 1024, 768
 
         self.screen = pygame.display.set_mode((self.width, self.height), pygame.RESIZABLE)
         self.temp_surface = pygame.Surface((self.width / 1.5, self.height / 1.5)).convert()
@@ -67,7 +67,7 @@ class MainGame(object):  # Game class
 
             self.update(dt)
 
-            self.temp_surface.fill(BLACK)
+            #self.temp_surface.fill(BLACK)
             self.draw(self.temp_surface)
 
             pygame.transform.scale(self.temp_surface, self.screen.get_size(), self.screen)

@@ -45,11 +45,11 @@ class Player(pygame.sprite.Sprite):  # Player class
         self.walking = False
         self.running = False
 
-        self.walk_speed_x = 4
-        self.walk_speed_y = 2
+        self.walk_speed_x = 1
+        self.walk_speed_y = 0.5
 
-        self.running_speed_x = 6
-        self.running_speed_y = 3
+        self.running_speed_x = 2
+        self.running_speed_y = 1
 
         self.move_sprites = self.load_spritesheet("player", "walk")
         self.standby_sprites = self.load_spritesheet("player", "standby")
@@ -78,7 +78,9 @@ class Player(pygame.sprite.Sprite):  # Player class
         self.player_standby.append(self.standby_sprites[448:511])  # Left
 
         self.image = self.player_standby[self.direction][self.standby_index]
+
         self.rect = self.image.get_rect()
+        self.feet = pygame.Rect(0, 0, self.rect.width * .5, 8)
 
     def load_spritesheet(self, fname, tname):
         spritesheet = load_image("%s_%s.png" % (fname, tname))
@@ -125,34 +127,11 @@ class Player(pygame.sprite.Sprite):  # Player class
             if event.key == K_LSHIFT:
                 self.running = False
 
-        if self.down and self.left:
-            self.move(0, self.running)
-
-        elif self.down and self.right:
-            self.move(2, self.running)
-
-        elif self.up and self.right:
-            self.move(4, self.running)
-
-        elif self.up and self.left:
-            self.move(6, self.running)
-
-        elif self.down:
-            self.move(1, self.running)
-
-        elif self.right:
-            self.move(3, self.running)
-
-        elif self.up:
-            self.move(5, self.running)
-
-        elif self.left:
-            self.move(7, self.running)
 
     def draw(self, screen):
         screen.blit(self.image, (self.pos_x, self.pos_y))
 
-    def move(self, direction, running):
+    def move(self, direction, running, dt):
         self.direction = direction
         self.walking = True
         self.standby_index = 0
@@ -163,32 +142,32 @@ class Player(pygame.sprite.Sprite):  # Player class
             speed_x, speed_y = self.walk_speed_x, self.walk_speed_y
 
         if self.direction == 0:
-            self.pos_y += speed_y  # Down
-            self.pos_x -= speed_x  # Left
+            self.pos_y += speed_y * dt  # Down
+            self.pos_x -= speed_x * dt  # Left
 
         elif self.direction == 1:
-            self.pos_y += speed_y  # Down
+            self.pos_y += speed_y * dt  # Down
 
         elif self.direction == 2:
-            self.pos_y += speed_y  # Down
-            self.pos_x += speed_x  # Right
+            self.pos_y += speed_y * dt  # Down
+            self.pos_x += speed_x * dt  # Right
 
         elif self.direction == 3:
-            self.pos_x += speed_x  # Right
+            self.pos_x += speed_x * dt  # Right
 
         elif self.direction == 4:
-            self.pos_y -= speed_y  # Up
-            self.pos_x += speed_x  # Right
+            self.pos_y -= speed_y * dt  # Up
+            self.pos_x += speed_x * dt  # Right
 
         elif self.direction == 5:
-            self.pos_y -= speed_y  # Up
+            self.pos_y -= speed_y * dt  # Up
 
         elif self.direction == 6:
-            self.pos_y -= speed_y  # Up
-            self.pos_x -= speed_x  # Left
+            self.pos_y -= speed_y * dt  # Up
+            self.pos_x -= speed_x * dt  # Left
 
         elif self.direction == 7:
-            self.pos_x -= speed_x  # Left
+            self.pos_x -= speed_x * dt  # Left
 
     def update(self, dt):
         if self.walking:
@@ -204,5 +183,29 @@ class Player(pygame.sprite.Sprite):  # Player class
 
         self.walking = False
 
-        self.rect.x = self.pos_x * dt
-        self.rect.y = self.pos_y * dt
+        if self.down and self.left:
+            self.move(0, self.running, dt)
+
+        elif self.down and self.right:
+            self.move(2, self.running, dt)
+
+        elif self.up and self.right:
+            self.move(4, self.running, dt)
+
+        elif self.up and self.left:
+            self.move(6, self.running, dt)
+
+        elif self.down:
+            self.move(1, self.running, dt)
+
+        elif self.right:
+            self.move(3, self.running, dt)
+
+        elif self.up:
+            self.move(5, self.running, dt)
+
+        elif self.left:
+            self.move(7, self.running, dt)
+
+        self.rect.topleft = (self.pos_x, self.pos_y)
+        self.feet.midbottom = self.rect.midbottom
